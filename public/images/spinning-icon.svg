@@ -1,0 +1,12 @@
+<svg id="infinite-indicator" width="200" height="200" viewPort="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
+ <circle r="40" cx="50" cy="50" style="fill:none; stroke: #0a66c2;stroke-width:10;stroke-opacity:0.2"></circle>
+ <path d="M10 50 A40 40 0 1 1 90 50" style="fill:none; stroke: #0a66c2;stroke-width:10;">
+  <animateTransform attributeType="xml"
+      attributeName="transform"
+      type="rotate"
+      from="0 50 50"
+      to="360 50 50"
+      dur="1s"
+      repeatCount="indefinite" />
+  </path>
+ </svg>
