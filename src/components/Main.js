@@ -415,6 +415,7 @@ const SharedImage = styled.div`
     background-color: transparent;
     outline: none;
     border: none;
+    cursor: pointer;
   }
   img {
     object-fit: contain;
