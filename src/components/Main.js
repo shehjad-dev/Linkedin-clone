@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import PostModal from "./PostModal";
+import MediaModal from "./MediaModal";
 import { getArticlesAPI } from "../actions";
 import ReactPlayer from "react-player";
 import React from "react";
@@ -9,9 +10,77 @@ import React from "react";
 const Main = (props) => {
   const [showModal, setShowModal] = useState("close");
 
+  //redo
+  const [showMediaModal, setShowMediaModal] = useState("close");
+  const [mediaResource, setMediaResource] = useState("./images/user.svg");
+  const [bloggerName, setBloggerName] = useState("Name");
+  const [bloggerImg, setBloggerImg] = useState("./images/user.svg");
+
+  //end
   useEffect(() => {
     props.getArticles();
   }, []);
+
+  //redo
+  const handleMediaClick = (e) => {
+    e.preventDefault();
+    switch (showMediaModal) {
+      case "open":
+        setShowMediaModal("close");
+        break;
+      case "close":
+        setShowMediaModal("open");
+        break;
+      default:
+        setShowMediaModal("close");
+        break;
+    }
+
+    switch (mediaResource) {
+      case "./images/user.svg":
+        setMediaResource(e.target.src);
+        break;
+      default:
+        setMediaResource(e.target.src);
+        break;
+    }
+
+    switch (bloggerImg) {
+      case "Name":
+        setBloggerImg(
+          e.target.parentElement.parentElement.parentElement.parentElement
+            .firstChild.firstChild.firstChild.src
+        );
+        break;
+      default:
+        setBloggerImg(
+          e.target.parentElement.parentElement.parentElement.parentElement
+            .firstChild.firstChild.firstChild.src
+        );
+        break;
+    }
+
+    switch (bloggerName) {
+      case "Name":
+        setBloggerName(
+          e.target.parentElement.parentElement.parentElement.parentElement
+            .firstChild.firstChild.lastChild.firstChild.innerHTML
+        );
+        break;
+      default:
+        setBloggerName(
+          e.target.parentElement.parentElement.parentElement.parentElement
+            .firstChild.firstChild.lastChild.firstChild.innerHTML
+        );
+        break;
+    }
+
+    /* console.log(
+      e.target.parentElement.parentElement.parentElement.parentElement
+        .firstChild.firstChild.lastChild.firstChild.innerHTML
+    ); */
+  };
+  //end
 
   const handleClick = (e) => {
     e.preventDefault();
@@ -97,13 +166,15 @@ const Main = (props) => {
                   </SharedActor>
                   <Description>{article.description}</Description>
                   <SharedImage>
-                    <a>
-                      {!article.sharedImg && article.video ? (
-                        <ReactPlayer width={"100%"} url={article.video} />
-                      ) : (
-                        article.sharedImg && <img src={article.sharedImg} />
-                      )}
-                    </a>
+                    <button onClick={handleMediaClick}>
+                      <a>
+                        {!article.sharedImg && article.video ? (
+                          <ReactPlayer width={"100%"} url={article.video} />
+                        ) : (
+                          article.sharedImg && <img src={article.sharedImg} />
+                        )}
+                      </a>
+                    </button>
                   </SharedImage>
                   <SocialCounts>
                     <li>
@@ -139,6 +210,13 @@ const Main = (props) => {
               ))}
           </Content>
           <PostModal showModal={showModal} handleClick={handleClick} />
+          <MediaModal
+            showMediaModal={showMediaModal}
+            handleMediaClick={handleMediaClick}
+            mediaResource={mediaResource}
+            bloggerImg={bloggerImg}
+            bloggerName={bloggerName}
+          />
         </Container>
       )}
     </>
@@ -331,7 +409,13 @@ const SharedImage = styled.div`
   display: block;
   position: relative;
   background-color: #f9fafb;
-
+  button {
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+    outline: none;
+    border: none;
+  }
   img {
     object-fit: contain;
     width: 100%;
